@@ -17,9 +17,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nama',
         'email',
         'password',
+        'username',
+        'foto_profil',
+        'role',
     ];
 
     /**
@@ -43,5 +46,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Informasi pinjaman
+     */
+    public function borrows() {
+        return $this->hasMany(Borrow::class);
     }
 }
