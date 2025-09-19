@@ -10,4 +10,9 @@ class HomesController extends Controller
     public function index() {
         return view("homes.index", ['title' => 'Home Page']);
     }
+
+    // About page
+    public function about() {
+        return view('homes.about', ['title' => 'About Page']);
+    }
 }

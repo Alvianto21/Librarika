@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 // public path
 Route::get("/", [HomesController::class, 'index']);
 
+Route::get('/about', [HomesController::class, 'about']);
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
