@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\HomesController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+// public path
+Route::get("/", [HomesController::class, 'index']);
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
