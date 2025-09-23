@@ -18,6 +18,7 @@ class BookFactory extends Factory
     {
         return [
             'judul' => fake()->words(4, true),
+            'slug' => fake()->unique()->slug(4),
             'ISBN' => fake()->unique()->isbn13(),
             'penulis' => fake()->name(),
             'tahun_terbit' => fake()->year(),
