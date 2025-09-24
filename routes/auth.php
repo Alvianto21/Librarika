@@ -1,15 +1,18 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function () {
-    Volt::route('register', 'pages.auth.register')
-        ->name('register');
+    Route::get('/register', [LoginController::class, 'register'])->name('registrasi');
 
-    Volt::route('login', 'pages.auth.login')
-        ->name('login');
+    Route::post('/register', [LoginController::class, 'store'])->name('register');
+
+    Route::get('/login', [LoginController::class, 'login'])->name('login');
+
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
 
     Volt::route('forgot-password', 'pages.auth.forgot-password')
         ->name('password.request');
@@ -19,6 +22,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
     Volt::route('verify-email', 'pages.auth.verify-email')
         ->name('verification.notice');
 

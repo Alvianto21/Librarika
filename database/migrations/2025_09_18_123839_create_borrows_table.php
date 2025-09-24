@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained();
             $table->foreignId("book_id")->constrained();
-            $table->date("Tgl_pinjam");
-            $table->date("Tgl_kembali");
-            $table->string("Status_buku")->default("dipinjam");
+            $table->date("tgl_pinjam");
+            $table->date("tgl_kembali");
+            $table->string("status_pinjam");
             $table->timestamps();
         });
     }
