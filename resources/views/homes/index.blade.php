@@ -1,6 +1,8 @@
 <x-homes.layout>
 	<x-slot:title>{{ $title }}</x-slot:title>
 
+	<x-alert></x-alert>
+
 	<section class="bg-white dark:bg-gray-900">
     	<div class="relative isolate px-6 pt-14 lg:px-8">
     		<div aria-hidden="true" class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
