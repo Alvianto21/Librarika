@@ -11,8 +11,16 @@ class IndexBook extends Component
 {
     use WithPagination;
 
-    public function mount() {
+    public $search = '';
+
+    // reset search
+    public function search() {
+        $this->resetPage();
+    }
+
+    public function mount($search = '') {
         $this->authorize("viewAny", Book::class);
+        $this->search = $search;
     }
     
     // Layout
@@ -20,9 +28,13 @@ class IndexBook extends Component
 
     public function render()
     {
-        $books = Book::latest()->paginate(10);
+        $query = Book::query();
+
+        if (!empty($this->search)) {
+            $query->search($this->search);
+        }
         return view('livewire.dashboard.books.index-book', [
-            'books' => $books
+            'books' => $query->paginate(10)
         ]);
     }
 }

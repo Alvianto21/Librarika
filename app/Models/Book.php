@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,5 +27,16 @@ class Book extends Model
      */
     public function borrows() {
         return $this->hasMany(Borrow::class);
+    }
+
+    /**
+     * Scope a query to search books.
+     */
+    public function scopeSearch(Builder $query, $search) {
+        return $query->where('judul', 'like', '%' . $search . '%')
+                    ->orWhere('penulis', 'like', '%' . $search . '%')
+                    ->orWhere('penerbit', 'like', '%' . $search . '%')
+                    ->orWhere('tahun_terbit', 'like', '%' . $search . '%')
+                    ->orWhere('ISBN', 'like', '%' . $search . '%');
     }
 }
