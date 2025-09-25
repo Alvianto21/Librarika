@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => EnsureUserHasRole::class
         ]);
+        $middleware->trustHosts(fn () => config('app.trusted_hosts'));
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

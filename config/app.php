@@ -123,4 +123,18 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Trusted Hosts
+    |--------------------------------------------------------------------------
+    |
+    | This option defines the trudted hosts for your application. You can 
+    | specify a list of trusted hosts that your application will accept.
+    | This is useful for security purposes, especially when dealing with
+    | reverse proxies, load balancers, or preventing host header attacks.
+    |--------------------------------------------------------------------------
+    */
+
+    'trusted_hosts' => explode(',', env('APP_TRUSTED_HOSTS', 'localhost')),
+
 ];
