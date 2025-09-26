@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("penerbit")->nullable();
             $table->year("tahun_terbit")->nullable();
             $table->string("foto_sampul")->nullable();
-            $table->integer("Jml_pinjam")->default(0);
+            $table->integer("jml_pinjam")->default(0);
             $table->string("kondisi");
             $table->timestamps();
         });

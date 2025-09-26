@@ -3,11 +3,18 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-4 py-3">#</th>
-                <th scope="col" class="px-4 py-3">Judul</th>
+                <th scope="col" class="px-4 py-3" wire:click="sortTable('judul')">
+                    <x-symbols.table-short>Judul</x-symbols.table-short>
+                </th>
                 <th scope="col" class="px-4 py-3">ISBN</th>
-                <th scope="col" class="px-4 py-3">Penulis</th>
+                <th scope="col" class="px-4 py-3"wire:click="sortTable('penulis')">
+                    <x-symbols.table-short>Penulis</x-symbols.table-short>
+                </th>
                 <th scope="col" class="px-4 py-3">Penerbit</th>
-                <th scope="col" class="px-4 py-3">Jumlah dipinjam</th>
+                <th scope="col" class="px-4 py-3 justify-center" wire:click="sortTable('jml_pinjam')">
+                    <x-symbols.table-short>Jumlah dipinjam</x-symbols.table-short>
+                </th>
+                <th scope="col" class="px-4 py-3">Kondisi</th>
                 <th scope="col" class="px-4 py-3">Actions</th>
             </tr>
         </thead>
@@ -19,7 +26,8 @@
                     <td class="px-4 py-3">{{ $book->ISBN }}</td>
                     <td class="px-4 py-3">{{ $book->penulis }}</td>
                     <td class="px-4 py-3">{{ $book->penerbit ?? 'tidak ada' }}</td>
-                    <td class="px-4 py-3">{{ $book->Jml_pinjam }}</td>
+                    <td class="px-4 py-3 text-center">{{ $book->jml_pinjam }}</td>
+                    <td class="px-4 py-3">{{ $book->kondisi }}</td>
                     <td class="px-4 py-3 flex items-center justify-end" wire:key="{{ $book->id }}" x-cloak x-data="{ open: false }">
                         <button @click="open = !open" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
                             <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

@@ -22,7 +22,7 @@ class BookFactory extends Factory
             'ISBN' => fake()->unique()->isbn13(),
             'penulis' => fake()->name(),
             'tahun_terbit' => fake()->year(),
-            'kondisi' => fake()->randomElement(['bagus', 'kusam', 'sampul rusak']),
+            'kondisi' => fake()->randomElement(['bagus', 'kusam', 'rusak']),
             'jml_pinjam' => fake()->randomNumber(2, false),
         ];
     }
