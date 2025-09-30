@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string("slug")->unique();
             $table->char("ISBN", 13)->unique();
             $table->string("penulis");
-            $table->string("penerbit")->nullable();
-            $table->year("tahun_terbit")->nullable();
+            $table->string("penerbit")->nullable()->default('tidak ada');
+            $table->text("deskripsi")->nullable();
+            $table->date("tahun_terbit")->nullable();
             $table->string("foto_sampul")->nullable();
             $table->integer("jml_pinjam")->default(0);
             $table->string("kondisi");

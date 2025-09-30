@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\BookController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomesController;
+use App\Livewire\Dashboard\Books\CreateBook;
 use App\Livewire\Dashboard\Books\IndexBook;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard/books', IndexBook::class);
+    Route::get('/dashboard/books', IndexBook::class)->name('books.index');
+
+    Route::get('/dashboard/books/create', CreateBook::class)->name('books.create');
 });
 
 Route::view('profile', 'profile')

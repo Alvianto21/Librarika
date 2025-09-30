@@ -21,9 +21,10 @@ class BookFactory extends Factory
             'slug' => fake()->unique()->slug(4),
             'ISBN' => fake()->unique()->isbn13(),
             'penulis' => fake()->name(),
-            'tahun_terbit' => fake()->year(),
+            'tahun_terbit' => fake()->date(),
             'kondisi' => fake()->randomElement(['bagus', 'kusam', 'rusak']),
             'jml_pinjam' => fake()->randomNumber(2, false),
+            'deskripsi' => fake()->paragraph(5, true),
         ];
     }
 }

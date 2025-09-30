@@ -1,0 +1,4 @@
+@props(['label', 'type', 'id', 'placehold', 'value', 'model'])
+<label for="{{ $label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ $slot }}</label>
+<input type="{{ $type }}" name="{{ $id }}" id="{{ $id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="{{ $placehold }}" value="{{ old($value) }}" {{ $attributes }}>
+<x-input-error :messages="$errors->get($model)" class="mt-2" />
