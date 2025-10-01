@@ -10,6 +10,9 @@ class ShowBook extends Component
 {
     public $book;
 
+    /**
+     * Class constructor
+     */
     public function mount(Book $book) {
         $this->authorize('view', Book::class);
         $this->book = $book;

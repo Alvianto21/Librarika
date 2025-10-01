@@ -4,11 +4,13 @@ namespace App\Livewire\Forms;
 
 use Livewire\Form;
 use App\Models\Book;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 
-class BookForm extends Form
+class BookUpdateForm extends Form
 {
+    public ?Book $book;
     
     public $judul = '';
     public $penulis = '';
@@ -41,29 +43,51 @@ class BookForm extends Form
             'slug' => [
                 'required',
                 'alpha_dash',
-                Rule::unique('books', 'slug'),
+                Rule::unique('books', 'slug')->ignore($this->book->id),
             ],
             'ISBN' => [
                 'required',
                 'numeric',
                 'digits_between:10,13',
-                Rule::unique('books', 'ISBN'),
+                Rule::unique('books', 'ISBN')->ignore($this->book->id),
             ]
         ];
     }
 
     /**
-     * Store new book
+     * Update book
      */
-    public function store() {
+    public function update() {
         // Validate input
         $this->validate();
 
-        // Store foto sampul if exist
+        // if foto sampul exist, delete it and store new one
         if ($this->foto_sampul instanceof \Illuminate\Http\UploadedFile) {
+            if (!empty($this->book->foto_sampul)) {
+                Storage::disk('public')->delete($this->book->foto_sampul);
+            }
+
             $this->foto_sampul = $this->foto_sampul->store('sampul-buku', 'public');
         }
 
-        Book::create($this->all());
+        $this->book->update($this->all());
     }
+
+    /**
+     * Set inisial data
+     */
+    public function setBook(Book $book) {
+        $this->book = $book;
+
+        $this->judul = $book->judul;
+        $this->slug = $book->slug;
+        $this->foto_sampul = $book->foto_sampul;
+        $this->penerbit = $book->penerbit;
+        $this->penulis = $book->penulis;
+        $this->ISBN = $book->ISBN;
+        $this->tahun_terbit = $book->tahun_terbit;
+        $this->deskripsi = $book->deskripsi;
+        $this->kondisi = $book->kondisi;
+    }
+
 }

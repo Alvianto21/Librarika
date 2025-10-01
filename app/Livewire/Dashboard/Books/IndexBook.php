@@ -40,8 +40,13 @@ class IndexBook extends Component
         $this->sortdir = $this->sortdir == 'asc' ? 'desc' : 'asc';
     }
 
+    /**
+     * Class constructor
+     */
     public function mount($search = '', string $conditionFilter = '') {
+        // Aothorize user
         $this->authorize("viewAny", Book::class);
+        
         $this->search = $search;
         $this->conditionFilter = $conditionFilter;
     }

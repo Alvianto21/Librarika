@@ -15,13 +15,20 @@ class CreateBook extends Component
 
     use WithFileUploads;
 
+    /**
+     * Submit form
+     */
     public function save() {
+        // Validate and create new book
         $this->form->store();
 
         session()->flash('BookCreateSuccess', 'Buku berhasil ditambahkan!');
         $this->redirect('/dashboard/books');
     }
 
+    /**
+     * Class constructor
+     */
     public function mount() {
         $this->authorize('create', Book::class);
     }
@@ -31,6 +38,7 @@ class CreateBook extends Component
 
     public function render()
     {
+        // Send slug example before user submit form
         if ($this->form->judul) {
             $slug = SlugService::createSlug(Book::class, 'slug', $this->form->judul);
             $this->form->slug = $slug;
