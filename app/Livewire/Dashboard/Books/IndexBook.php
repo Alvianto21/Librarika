@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Books;
 
 use App\Models\Book;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -38,6 +39,32 @@ class IndexBook extends Component
     public function sortTable($colname) {
         $this->colname === $colname;
         $this->sortdir = $this->sortdir == 'asc' ? 'desc' : 'asc';
+    }
+
+    /**
+     * Delete book
+     */
+    public function deleteBook($slug) {
+        // Authorize
+        $this->authorize('delete', Book::class);
+        
+        // Find book which will deteded
+        $book = Book::where('slug', $slug)->first();
+
+        // Delete only book exist
+        if ($book) {
+            // If book has foto sampul, delete it
+            if ($book->foto_sampul) {
+                Storage::disk('public')->delete($book->foto_sampul);
+            }
+
+            $book->delete();
+
+            session()->flash('BookDeleteSuccess', 'Buku Berhasil dihapus!');
+        } else {
+            session()->flash('BookDeleteFailed', 'Buku gagal dihapus atau buku tidak ada.');
+        }
+
     }
 
     /**

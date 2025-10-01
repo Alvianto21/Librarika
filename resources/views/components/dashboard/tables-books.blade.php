@@ -39,13 +39,15 @@
                                 <li>
                                     <a href="{{ route('books.show', ['book' => $book->slug]) }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                 </li>
-                                <li>
-                                    <a href="{{ route('book.edit', ['book' => $book->slug]) }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-                                </li>
-                            </ul>
-                            <div class="py-1">
-                                <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-                            </div>
+                                @if (Auth::user()->role == 'petugas')
+                                    <li>
+                                        <a href="{{ route('book.edit', ['book' => $book->slug]) }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                                    </li>
+                                </ul>
+                                <div class="py-1">
+                                    <button wire:click="deleteBook('{{ $book->slug }}')" wire:confirm.prompt="Are you sure?\n\nType DELETE to confirm|DELETE" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</button>
+                                </div>                                   
+                            @endif
                         </div>
                     </td>
                 </tr>							
