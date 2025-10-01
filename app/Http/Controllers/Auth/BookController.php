@@ -11,16 +11,15 @@ class BookController extends Controller
     /**
      * Menampilkan semua buku
      */
-    public function index(Request $request) {
+    public function index(Book $book, Request $request) {
         // Cek otorisasi user
         if ($request->user()->cannot('viewAny', Book::class)) {
             abort(403, 'Anda tidak memiliki ijin untuk aksi ini.');
         }
         
-        $books = Book::paginate(10);
         return view('dashboard.book.index', [
             'title' => 'Daftar Buku',
-            'books' => $books
+            'book' => $book
         ]);
     }
 }

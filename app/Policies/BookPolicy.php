@@ -21,7 +21,7 @@ class BookPolicy
      * Determine whether the user can view the model.
      * Semua level user dapat melihat detail buku
      */
-    public function view(User $user, Book $book): bool
+    public function view(User $user): bool
     {
         return in_array($user->role, ['admin', 'petugas', 'user']);
     }

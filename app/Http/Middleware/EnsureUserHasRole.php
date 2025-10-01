@@ -16,7 +16,7 @@ class EnsureUserHasRole
     public function handle(Request $request, Closure $next, string $role): Response
     {
         $user = $request->user();
-        if (!$user->role($role)) {
+        if (!$user || $user->role != $role) {
             abort(403, "Akses ditolak.");
         }
 

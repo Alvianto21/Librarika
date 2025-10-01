@@ -20,7 +20,7 @@ class Book extends Model
         "penerbit",
         "tahun_terbit",
         "kondisi",
-        "foto_samplul",
+        "foto_sampul",
         "jml_pinjam",
         'slug',
         'deskripsi'

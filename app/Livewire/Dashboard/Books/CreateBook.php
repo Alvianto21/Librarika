@@ -21,6 +21,10 @@ class CreateBook extends Component
         session()->flash('BookCreateSuccess', 'Buku berhasil ditambahkan!');
         $this->redirect('/dashboard/books');
     }
+
+    public function mount() {
+        $this->authorize('create', Book::class);
+    }
     
     // Layout
     #[Layout("components.dashboard.layout", ["title" => "Tambah Buku"])]

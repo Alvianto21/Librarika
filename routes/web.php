@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\BookController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomesController;
 use App\Livewire\Dashboard\Books\CreateBook;
 use App\Livewire\Dashboard\Books\IndexBook;
+use App\Livewire\Dashboard\Books\ShowBook;
 use Illuminate\Support\Facades\Route;
 
 // public path
@@ -19,7 +19,9 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/books', IndexBook::class)->name('books.index');
 
-    Route::get('/dashboard/books/create', CreateBook::class)->name('books.create');
+    Route::get('/dashboard/books/create', CreateBook::class)->name('books.create')->middleware('role:petugas');
+
+    route::get('/dashboard/books/{book:slug}', ShowBook::class)->name('books.show');
 });
 
 Route::view('profile', 'profile')

@@ -12,7 +12,7 @@ class BookForm extends Form
     
     public $judul = '';
     public $penulis = '';
-    public $penerbit = '';
+    public $penerbit = null;
     public $deskripsi = '';
     public $kondisi = '';
     public $tahun_terbit = null;
@@ -51,6 +51,10 @@ class BookForm extends Form
 
     public function store() {
         $this->validate();
+
+        if ($this->foto_sampul instanceof \Illuminate\Http\UploadedFile) {
+            $this->foto_sampul = $this->foto_sampul->store('sampul-buku', 'public');
+        }
 
         Book::create($this->all());
     }
