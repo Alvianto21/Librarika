@@ -16,6 +16,7 @@ class EditBook extends Component
     use WithFileUploads;
 
     public $book;
+    public $foto;
 
     /**
      * Submit form
@@ -34,6 +35,7 @@ class EditBook extends Component
     public function mount(Book $book) {
         $this->authorize('update', $book);
         $this->form->setBook($book);
+        $this->foto = $book->foto_sampul;
     }
 
     // Layout

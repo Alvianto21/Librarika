@@ -81,7 +81,7 @@ class BookUpdateForm extends Form
 
         $this->judul = $book->judul;
         $this->slug = $book->slug;
-        $this->foto_sampul = $book->foto_sampul;
+        // $this->foto_sampul = $book->foto_sampul;
         $this->penerbit = $book->penerbit;
         $this->penulis = $book->penulis;
         $this->ISBN = $book->ISBN;
