@@ -55,4 +55,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function borrows() {
         return $this->hasMany(Borrow::class);
     }
+
+    /**
+     * Menentukan role user
+     */
+    public function Role($role) {
+        return $this->role === $role;
+    }
 }

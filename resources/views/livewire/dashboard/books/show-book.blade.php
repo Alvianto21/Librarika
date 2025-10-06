@@ -14,9 +14,8 @@
                     <p class="text-md font-extrabold text-gray-900 sm:text-3xl dark:text-white">{{ $book->penulis }}</p>
                     <div class="flex items-center gap-2 mt-2 sm:mt-0">
                         <div class="flex items-center gap-1">
-                            <p class="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">{{ $book->ISBN }} </p>                            
+                            <p class="text-2xl font-medium leading-none text-gray-500 dark:text-gray-400">{{ $tanggal }} </p>                            
                         </div>
-                        <p class="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">{{ $book->jml_pinjam }} Dipinjam</p>
                     </div>
                 </div>
 
@@ -40,6 +39,12 @@
 
                 <p class="mb-6 text-gray-500 dark:text-gray-400">
                     {{ $book->deskripsi }}
+                </p>
+                <p class="mb-6 text-gray-500 font-semibold dark:text-gray-400">
+                    ISBN: {{ $book->ISBN }}
+                </p>
+                <p class="mb-6 text-gray-500 dark:text-gray-400">
+                    {{ $book->jml_pinjam }} Dipinjam
                 </p>
                 <a href="{{ route('books.index') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Back</a>
             </div>

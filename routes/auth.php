@@ -34,6 +34,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/email/verification-notification', [VerifyController::class, 'resendEmail'])->middleware('throttle:6,1')->name('verification.send');
 
-    Volt::route('confirm-password', 'pages.auth.confirm-password')
-        ->name('password.confirm');
+    // Volt::route('confirm-password', 'pages.auth.confirm-password')
+    //     ->name('password.confirm');
 });

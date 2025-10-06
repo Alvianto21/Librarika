@@ -20,7 +20,7 @@
         </thead>
         <tbody>
 			@foreach ($books as $book)
-            <tr class="border-b dark:border-gray-700">
+                <tr class="border-b dark:border-gray-700">
                     <td class="px-4 py-3">{{ $loop->iteration }}</td>
                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $book->judul }}</th>
                     <td class="px-4 py-3">{{ $book->ISBN }}</td>

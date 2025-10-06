@@ -9,6 +9,7 @@ use Livewire\Attributes\Layout;
 class ShowBook extends Component
 {
     public $book;
+    public $tanggal;
 
     /**
      * Class constructor
@@ -21,11 +22,11 @@ class ShowBook extends Component
             'ISBN',
             'penulis',
             'penerbit',
-            'tahun_terbit',
             'deskripsi',
             'jml_pinjam',
-            'foto_sampul'
+            'foto_sampul',
         ]));
+        $this->tanggal = $book->formatedTahunTerbit();
     }
 
     // Layout

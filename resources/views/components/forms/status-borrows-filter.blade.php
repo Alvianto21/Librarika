@@ -9,16 +9,16 @@
         </svg>
     </button>
     <div id="filterDropdown" class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Kondisi Buku</h6>
+        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Status Buku</h6>
         <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
             @foreach ($values as $value => $item)
                 <li class="flex items-center">
-                    <input id="{{ $value }}" type="radio" value="{{ $item }}" wire:model.change="conditionFilter" @click="if(this.wasChecked){ this.checked=false; this.wasChecked=false; @this.set('conditionFilter', null); } else { this.wasChecked=true; }" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                    <input id="{{ $value }}" type="radio" value="{{ $item }}" wire:model.change="statusFilter" @click="if(this.wasChecked){ this.checked=false; this.wasChecked=false; @this.set('statusFilter', null); } else { this.wasChecked=true; }" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                     <label for="{{ $value }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $value }}</label>                    
                 </li>
             @endforeach
             <li class="flex items-center">
-                <button type="reset" wire:click="$set('conditionFilter', null)" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-dark focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">Reset</button>
+                <button type="reset" wire:click="$set('statusFilter', null)" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-dark focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">Reset</button>
             </li>
         </ul>
     </div>

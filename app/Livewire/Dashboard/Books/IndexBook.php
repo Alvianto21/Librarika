@@ -27,7 +27,7 @@ class IndexBook extends Component
     /**
      * Reset page on updating search or filter
      */
-    public function updating($property, $value) {
+    public function updating($property) {
         if(in_array($property, ['search', 'conditionFilter'])) {
             $this->resetPage();
         }
