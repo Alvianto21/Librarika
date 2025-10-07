@@ -7,7 +7,9 @@ use App\Livewire\Dashboard\Books\EditBook;
 use App\Livewire\Dashboard\Books\IndexBook;
 use App\Livewire\Dashboard\Books\ShowBook;
 use App\Livewire\Dashboard\Borrows\IndexBorrow;
+use App\Livewire\Dashboard\Borrows\ShowBorrow;
 use App\Livewire\Dashboard\Borrows\UserBorrow;
+use App\Livewire\Dashboard\Borrows\UserBorrowInfo;
 use Illuminate\Support\Facades\Route;
 
 // public path
@@ -31,10 +33,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:petugas,admin'])->group(function () {
     Route::get('/dashboard/borrow', IndexBorrow::class)->name('borrow.index');
+
+    Route::get('/dashboard/borrow/{borrow:kode_pinjam}', ShowBorrow::class)->name('borrow.show');
 });
 
 Route::middleware(['auth', 'verified', 'role:user'])->prefix('users')->group(function () {
-    Route::get('/borrows', UserBorrow::class)->name('user.borrows');
+    Route::get('/borrows', UserBorrow::class)->name('users.borrows');
+
+    Route::get('/borrows/{borrow:kode_pinjam}', UserBorrowInfo::class)->name('users.borrow.info');
 });
 
 Route::view('profile', 'profile')

@@ -3,8 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Book;
-use App\Models\Borrow;
 use App\Models\User;
+use App\Models\Borrow;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -32,7 +33,8 @@ class BorrowFactory extends Factory
             'book_id' => Book::factory(),
             'tgl_pinjam' => fake()->dateTimeBetween('-1 month', 'now'),
             'tgl_kembali' => fake()->dateTimeBetween('-3 weeks', '+2 weeks'),
-            'status_pinjam' => fake()->randomElement(['dipinjam', 'dikembalikan', 'hilang', 'terlambat'])
+            'status_pinjam' => fake()->randomElement(['dipinjam', 'dikembalikan', 'hilang', 'terlambat']),
+            'kode_pinjam' => 'TXBOR-' .  Str::uuid()->toString()
         ];
     }
 }

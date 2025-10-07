@@ -19,11 +19,12 @@ class BorrowPolicy
 
     /**
      * Determine whether the user can view the model.
-     * Semua level user dapat melihat data peminjaman nya sendiri
+     * Hanya admin dan petugas yang dapat melihat detail data peminjaman.
+     * User hanya melihat datanya sedndiri.
      */
     public function view(User $user, Borrow $borrow): bool
     {
-        return $user->id === $borrow->user_id;
+        return $user->id === $borrow->user_id || in_array($user->role, ['admin', 'petugas']);
     }
 
     /**

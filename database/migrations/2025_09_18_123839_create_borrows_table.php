@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('borrows', function (Blueprint $table) {
             $table->id();
+            $table->string("kode_pinjam", 45)->unique();
             $table->foreignId("user_id")->constrained();
             $table->foreignId("book_id")->constrained();
             $table->date("tgl_pinjam");
-            $table->date("tgl_kembali");
+            $table->date("tgl_kembali")->nullable();
             $table->string("status_pinjam")->default("menunggu");
             $table->timestamps();
         });
