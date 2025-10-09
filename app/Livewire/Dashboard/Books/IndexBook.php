@@ -37,7 +37,7 @@ class IndexBook extends Component
      * Sort by colum
      */
     public function sortTable($colname) {
-        $this->colname === $colname;
+        $this->colname = $colname;
         $this->sortdir = $this->sortdir == 'asc' ? 'desc' : 'asc';
     }
 

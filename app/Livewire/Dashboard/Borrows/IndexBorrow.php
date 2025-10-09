@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Borrows;
 
 use App\Models\Borrow;
+use App\Notifications\BorrowAgreement;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
@@ -31,8 +32,29 @@ class IndexBorrow extends Component
      * Sort by colomn
      */
     public function sortTable($colmn) {
-        $this->colname === $colmn;
+        $this->colname = $colmn;
         $this->sortdir = $this->sortdir == 'asc' ? 'desc' : 'asc';
+    }
+
+    /**
+     * Approve borrow
+     */
+    public function approve($code) {
+        $this->authorize('update', Borrow::class);
+
+        $borrow = Borrow::whereKodePinjam($code)->first();
+
+        if ($borrow) {
+            $borrow->status_pinjam = 'dipinjam';
+            $borrow->book->increment('jml_pinjam', 1);
+            $borrow->save();
+
+            session()->flash('BorrowUpdateSuccess', 'Peminjaman telah disetuhui');
+            $borrow->user->notify(new BorrowAgreement($borrow));
+        } else {
+            session()->flash('BorrowUpdateFailed', 'Data pinjam tidak ada atau gagal diperbarui');
+            return;
+        }
     }
 
     /**

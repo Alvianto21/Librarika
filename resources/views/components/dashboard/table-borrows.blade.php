@@ -6,8 +6,12 @@
                 <th scope="col" class="px-4 py-3">Nama Pengguna</th>
                 <th scope="col" class="px-4 py-3">Judul Buku</th>
                 <th scope="col" class="px-4 py-3">Status</th>
-                <th scope="col" class="px-4 py-3">Tanggal Pinjam</th>
-                <th scope="col" class="px-4 py-3">Tanggal Kembali</th>
+                <th scope="col" class="px-4 py-3" wire:click="sortTable('tgl_pinjam')">
+                    <x-symbols.table-short>Tanggal Pinjam</x-symbols.table-short>
+                </th>
+                <th scope="col" class="px-4 py-3" wire:click="sortTable('tgl_kembali')">
+                    <x-symbols.table-short>Tanggal Kembali</x-symbols.table-short>
+                </th>
                 <th scope="col" class="px-4 py-3">Actions</th>
             </tr>
         </thead>
@@ -35,9 +39,11 @@
                                     <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                     </li>
                             </ul>
-                            <div class="py-1">
-                                <button wire:click="" wire:confirm.prompt="Are you sure?\n\nType DELETE to confirm|DELETE" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</button>
-                            </div>                                   
+                            @if ($borrow->status_pinjam == 'menunggu')
+                                <div class="py-1">
+                                    <button wire:click="approve('{{ $borrow->kode_pinjam }}')" wire:confirm.prompt="Are you sure?\n\nType CONFIRM to confirm|CONFIRM" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Confirm</button>
+                                </div>                       
+                            @endif
                         </div>
                     </td>
                 </tr>							
