@@ -9,6 +9,7 @@ use App\Livewire\Dashboard\Books\ShowBook;
 use App\Livewire\Dashboard\Borrows\IndexBorrow;
 use App\Livewire\Dashboard\Borrows\ShowBorrow;
 use App\Livewire\Dashboard\Borrows\UserBorrow;
+use App\Livewire\Dashboard\Borrows\UserBorrowCreate;
 use App\Livewire\Dashboard\Borrows\UserBorrowInfo;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,8 @@ Route::middleware(['auth', 'verified', 'role:petugas,admin'])->group(function ()
 
 Route::middleware(['auth', 'verified', 'role:user'])->prefix('users')->group(function () {
     Route::get('/borrows', UserBorrow::class)->name('users.borrows');
+
+    Route::get('/borrows/create', UserBorrowCreate::class)->name('users.borrow.create');
 
     Route::get('/borrows/{borrow:kode_pinjam}', UserBorrowInfo::class)->name('users.borrow.info');
 });

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use function Livewire\Volt\uses;
+
 class Borrow extends Model
 {
     use HasFactory;
@@ -16,6 +18,9 @@ class Borrow extends Model
         "tgl_pinjam",
         "tgl_kembali",
         "status_buku",
+        'kode_pinjam',
+        'user_id',
+        'book_id'
     ];
 
     /**
@@ -36,10 +41,16 @@ class Borrow extends Model
      * Scipe a query to search borrows
      */
     public function scopeSearch(Builder $query, $search) {
-        return $query->where('username', 'like', '%' . $search . '%')
-                    ->orWhere('nama', 'like' , '%' . $search . '%')
-                    ->orWhere('status_buku', 'like', '%' . $search . '%')
-                    ->orWhere('judul', 'like', '%', $search . '%');
+        return $query->where('status_pinjam', 'like', '%' . $search . '%')
+                    ->orWhere('kode_pinjam', 'like' , '%' . $search . '%')
+                    ->orWhere('tgl_pinjam', 'like', '%' . $search . '%')
+                    ->orWhere('tgl_kembali', 'like', '%' . $search . '%')
+                    ->orwhereHas('book', fn($q) => 
+                        $q->where('judul', 'like', '%' . $search . '%'))
+                    ->orWhereHas('user', fn($q) =>
+                        $q->where('nama', 'like', '%' . $search . '%')
+                        ->orWhere('username', 'like', '%' . $search . '%')
+                    );
     }
 
     /**
