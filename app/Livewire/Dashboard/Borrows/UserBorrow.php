@@ -39,7 +39,7 @@ class UserBorrow extends Component
     }
     
     // Layout
-    #[Layout("components.dashboard.layout", ["title" => "Info Pinjam"])]
+    #[Layout("components.dashboard.layout", ["title" => "Daftar Pinjam"])]
     
     public function render()
     {

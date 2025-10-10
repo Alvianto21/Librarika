@@ -20,14 +20,14 @@
             <div>
                 <x-forms.read-form label="tgl-kembali" name="tgl_kembali" type="date" value="{{ $tgl_kembali }}">Tanggal Dikembalikan</x-forms.read-form>
             </div> 
+            <div>
+                <x-forms.read-form label="judul" name="judul" type="text" value="{{ $borrow->book->judul }}">Judul Buku</x-forms.read-form>
+            </div>
             @if ($borrow->book->foto_sampul)
                 <div class="sm:col-span-2">
                     <x-forms.read-img-form label="foto_sampul" img="{{ $borrow->book->foto_sampul }}" name="{{ $borrow->book->judul }}">Sampul Buku</x-forms.read-img-form>
                 </div>
-                @endif
-            <div>
-                <x-forms.read-form label="judul" name="judul" type="text" value="{{ $borrow->book->judul }}">Judul Buku</x-forms.read-form>
-            </div>
+            @endif
         </div>
         <a type="button" href="{{ route('borrow.index') }}" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
               Kembali ke tabel pinjam

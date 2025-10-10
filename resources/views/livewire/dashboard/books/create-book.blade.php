@@ -20,7 +20,7 @@
                     <x-forms.input-form label="penerbit" id="penerbit" placehold="Penerbit Cakrawala" type="text" model="form.penerbit" value="form.penerbit" wire:model="form.penerbit">Penerbit Buku</x-forms.input-form>
                 </div>
                 <div>
-                    <x-forms.input-select-form label="kondisi" id="kondisi" :options="['Bagus', 'Kusam', 'Rusak']" value="form.kondisi" model="form.condisi" wire:model="form.kondisi" required>Kondisi Buku</x-forms.input-select-form>
+                    <x-forms.input-select-form label="kondisi" id="kondisi" :options="['bagus' => 'Bagus', 'kusam' => 'Kusam', 'rusak' => 'Rusak']" value="form.kondisi" model="form.condisi" wire:model="form.kondisi" required>Kondisi Buku</x-forms.input-select-form>
                 </div>
                 <div>
                     <x-forms.input-form label="tahun_terbit" id="tahun_terbit" placehold="2009-05-25" type="date" model="form.tahun_terbit" value="tahun_terbit" wire:model="form.tahun_terbit" min="1950-01-01" max="2999-12-31" step="1">Tahun Terbit</x-forms.input-form>

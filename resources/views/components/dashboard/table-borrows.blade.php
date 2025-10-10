@@ -36,14 +36,17 @@
                                     <a href="{{ route('borrow.show', ['borrow' => $borrow->kode_pinjam]) }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-                                    </li>
-                            </ul>
-                            @if ($borrow->status_pinjam == 'menunggu')
-                                <div class="py-1">
-                                    <button wire:click="approve('{{ $borrow->kode_pinjam }}')" wire:confirm.prompt="Are you sure?\n\nType CONFIRM to confirm|CONFIRM" wire:loading.attr="disabled" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Confirm</button>
-                                </div>                       
-                            @endif
+                                @if (Auth::user()->role == 'petugas')
+                                            <a href="{{ route('borrow.edit', ['borrow' => $borrow->kode_pinjam]) }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                                        </li>
+                                    </ul>
+                                    @if ($borrow->status_pinjam == 'menunggu')
+                                        <div class="py-1">
+                                            <button wire:click="approve('{{ $borrow->kode_pinjam }}')" wire:confirm.prompt="Are you sure?\n\nType CONFIRM to confirm|CONFIRM" wire:loading.attr="disabled" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Confirm</button>
+                                            <button wire:click="reject('{{ $borrow->kode_pinjam }}')" wire:confirm.prompt="Are you sure?\n\nType REJECTED to confirm|REJECTED" wire:loading.attr="disabled" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Reject</button>
+                                        </div>                       
+                                    @endif    
+                                @endif
                         </div>
                     </td>
                 </tr>							

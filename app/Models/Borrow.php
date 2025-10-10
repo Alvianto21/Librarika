@@ -17,7 +17,7 @@ class Borrow extends Model
     protected $fillable = [
         "tgl_pinjam",
         "tgl_kembali",
-        "status_buku",
+        "status_pinjam",
         'kode_pinjam',
         'user_id',
         'book_id'

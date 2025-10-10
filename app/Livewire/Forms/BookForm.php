@@ -36,7 +36,7 @@ class BookForm extends Form
             'penerbit' => 'nullable|string|max:255',
             'tahun_terbit' => 'nullable|date_format:Y-m-d',
             'foto_sampul' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'kondisi' => 'required|in:Bagus,Kusam,Rusak',
+            'kondisi' => 'required|in:bagus,kusam,rusak',
             'deskripsi' => 'nullable|string',
             'slug' => [
                 'required',

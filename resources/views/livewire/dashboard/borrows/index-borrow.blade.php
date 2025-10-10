@@ -5,7 +5,7 @@
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <x-forms.search-form></x-forms.search-form>
                 <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                    <x-forms.status-borrows-filter :values="['Menunggu' => 'menunggu', 'Dipinjam' => 'dipinjam', 'Dikembalikan' => 'dikembalikan', 'Hilang' => 'hilang']"></x-forms.status-borrows-filter>
+                    <x-forms.status-borrows-filter :values="['Menunggu' => 'menunggu', 'Dipinjam' => 'dipinjam', 'Dikembalikan' => 'dikembalikan', 'Ditolak' => 'ditolak', 'Hilang' => 'hilang']"></x-forms.status-borrows-filter>
                 </div>
             </div>
             <x-dashboard.table-borrows :borrows="$borrows"></x-dashboard.table-borrows>

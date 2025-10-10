@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Borrows;
 
 use App\Models\Borrow;
 use App\Notifications\BorrowAgreement;
+use App\Notifications\RejectedBorrow;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
@@ -49,12 +50,36 @@ class IndexBorrow extends Component
             $borrow->book->increment('jml_pinjam', 1);
             $borrow->save();
 
-            session()->flash('BorrowUpdateSuccess', 'Peminjaman telah disetuhui');
+            session()->flash('BorrowUpdateSuccess', 'Peminjaman telah disetujui');
             $borrow->user->notify(new BorrowAgreement($borrow));
+            $this->resetPage();
         } else {
             session()->flash('BorrowUpdateFailed', 'Data pinjam tidak ada atau gagal diperbarui');
-            return;
+            $this->resetPage();
         }
+
+    }
+
+    /**
+     * Rejected borrow
+     */
+    public function reject($code) {
+        $this->authorize('update', Borrow::class);
+
+        $borrow = Borrow::whereKodePinjam($code)->first();
+
+        if ($borrow) {
+            $borrow->status_pinjam = 'ditolak';
+            $borrow->save();
+
+            session()->flash('BorrowUpdateSuccess', 'Peminjaman telah ditolak');
+            $borrow->user->notify(new RejectedBorrow($borrow));
+            $this->resetPage();
+        } else {
+            session()->flash('BorrowUpdateFailed', 'Data pinjam tidak ada atau gagal diperbarui');
+            $this->resetPage();
+        }
+
     }
 
     /**

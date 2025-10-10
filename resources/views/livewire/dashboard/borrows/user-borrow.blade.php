@@ -11,7 +11,7 @@
                             </svg>
                         Pinjam Buku
                     </a>
-                    <x-forms.status-borrows-filter :values="['Menunggu' => 'menunggu', 'Dipinjam' => 'dipinjam', 'Dikembalikan' => 'dikembalikan', 'Hilang' => 'hilang']"></x-forms.status-borrows-filter>
+                    <x-forms.status-borrows-filter :values="['Menunggu' => 'menunggu', 'Dipinjam' => 'dipinjam', 'Dikembalikan' => 'dikembalikan', 'Ditolak' => 'ditolak', 'Hilang' => 'hilang']"></x-forms.status-borrows-filter>
                 </div>
             </div>
             <x-dashboard.table-users-borrow :pagination="$paginate"></x-dashboard.table-users-borrow>

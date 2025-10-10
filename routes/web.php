@@ -6,6 +6,7 @@ use App\Livewire\Dashboard\Books\CreateBook;
 use App\Livewire\Dashboard\Books\EditBook;
 use App\Livewire\Dashboard\Books\IndexBook;
 use App\Livewire\Dashboard\Books\ShowBook;
+use App\Livewire\Dashboard\Borrows\EditBorrow;
 use App\Livewire\Dashboard\Borrows\IndexBorrow;
 use App\Livewire\Dashboard\Borrows\ShowBorrow;
 use App\Livewire\Dashboard\Borrows\UserBorrow;
@@ -36,6 +37,8 @@ Route::middleware(['auth', 'verified', 'role:petugas,admin'])->group(function ()
     Route::get('/dashboard/borrow', IndexBorrow::class)->name('borrow.index');
 
     Route::get('/dashboard/borrow/{borrow:kode_pinjam}', ShowBorrow::class)->name('borrow.show');
+
+    Route::get('/dashboard/borrow/{borrow:kode_pinjam}/edit', EditBorrow::class)->name('borrow.edit');
 });
 
 Route::middleware(['auth', 'verified', 'role:user'])->prefix('users')->group(function () {
