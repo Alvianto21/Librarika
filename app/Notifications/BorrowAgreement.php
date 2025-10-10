@@ -43,9 +43,9 @@ class BorrowAgreement extends Notification
                     ->greeting('Halo ' . $notifiable->nama . ',')
                     ->line('Permintaan peminjaman buku ' . $this->borrow->book->judul . ' dengan kode pinjam ' . $this->borrow->kode_pinjam . ' telah disetujui.')
                     ->line('Tanggal Pinjam: '. Carbon::parse($this->borrow->tgl_pinjam))
-                    ->action('Lihat detai Peminjaman', route('users.borrow.info', ['borrow' => $this->borrow->kode_pinjam]))
                     ->line('Anda dapat mengambil buku tersebut ke perpustakawan kami.')
                     ->line('Durasi peminjmana buku adalah 3 minggu setelah anda menngambil buku')
+                    ->action('Lihat detai Peminjaman', route('users.borrow.info', ['borrow' => $this->borrow->kode_pinjam]))
                     ->line('Terima kasih telah menggunakan layanan kami!');
     }
 

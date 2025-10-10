@@ -41,7 +41,7 @@
                             </ul>
                             @if ($borrow->status_pinjam == 'menunggu')
                                 <div class="py-1">
-                                    <button wire:click="approve('{{ $borrow->kode_pinjam }}')" wire:confirm.prompt="Are you sure?\n\nType CONFIRM to confirm|CONFIRM" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Confirm</button>
+                                    <button wire:click="approve('{{ $borrow->kode_pinjam }}')" wire:confirm.prompt="Are you sure?\n\nType CONFIRM to confirm|CONFIRM" wire:loading.attr="disabled" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Confirm</button>
                                 </div>                       
                             @endif
                         </div>
