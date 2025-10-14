@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard\Borrows;
 use App\Models\Borrow;
 use App\Notifications\BorrowAgreement;
 use App\Notifications\RejectedBorrow;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
@@ -20,11 +21,14 @@ class IndexBorrow extends Component
     public $colname = 'id';
     public $sortdir = 'asc';
 
+    public ?string $starting = null;
+    public ?string $ending = null;
+
     /**
      * Reset page on updating search or filter
      */
     public function updateting($property) {
-        if (in_array($property, ['search', 'statusFilter'])) {
+        if (in_array($property, ['search', 'statusFilter', 'starting', 'ending'])) {
             $this->resetPage();
         }
     }
@@ -83,13 +87,51 @@ class IndexBorrow extends Component
     }
 
     /**
+     * Export to Excel
+     */
+    public function exportExcel() {
+        if (!Auth::user()->Role('admin')) {
+            session()->flash('ActionDenied', 'Anda tidak memiliki izin untuk aksi ini');
+            return;
+        }
+
+        $param = array_filter([
+            'starting' => $this->starting,
+            'ending' => $this->ending,
+            'statusFilter' => $this->statusFilter
+        ]);
+        
+        $this->redirectRoute('borrow.report.excel', $param);
+    }
+    
+    /**
+     * Export to PDF
+    */
+    public function exportPdf() {
+        if (!Auth::user()->Role('admin')) {
+            session()->flash('ActionDenied', 'Anda tidak memiliki izin untuk aksi ini');
+            return;
+        }
+    
+        $param = array_filter([
+            'starting' => $this->starting,
+            'ending' => $this->ending,
+            'statusFilter' => $this->statusFilter
+        ]);
+        
+        $this->redirectRoute('borrow.report.pdf', $param);
+    }
+
+    /**
      * Class constructor
      */
-    public function mount($search = '', $statusFilter = ''){
+    public function mount($search = '', $statusFilter = '', $starting = null, $ending = null){
         $this->authorize("viewAny", Borrow::class);
 
         $this->search = $search;
         $this->statusFilter = $statusFilter;
+        $this->starting = $starting;
+        $this->ending = $ending;
     }
 
     // Layout
@@ -105,6 +147,10 @@ class IndexBorrow extends Component
 
         if (!empty($this->statusFilter)) {
             $query->where('status_pinjam', $this->statusFilter);
+        }
+
+        if (!empty($this->starting) || !empty($this->ending)) {
+            $query->whereBetween('tgl_pinjam', [$this->starting, $this->ending]);
         }
 
         $query->with(['book', 'user']);

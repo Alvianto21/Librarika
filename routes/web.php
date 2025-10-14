@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomesController;
+use App\Http\Controllers\ReportExportController;
 use App\Livewire\Dashboard\Books\CreateBook;
 use App\Livewire\Dashboard\Books\EditBook;
 use App\Livewire\Dashboard\Books\IndexBook;
@@ -39,6 +40,12 @@ Route::middleware(['auth', 'verified', 'role:petugas,admin'])->group(function ()
     Route::get('/dashboard/borrow/{borrow:kode_pinjam}', ShowBorrow::class)->name('borrow.show');
 
     Route::get('/dashboard/borrow/{borrow:kode_pinjam}/edit', EditBorrow::class)->name('borrow.edit');
+});
+
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('/dashboard/borrow/report/xlsx', [ReportExportController::class, 'exportExcel'])->name('borrow.report.excel');
+
+    Route::get('/dashboard/borrow/report/pdf', [ReportExportController::class, 'exportPDF'])->name('borrow.report.pdf');
 });
 
 Route::middleware(['auth', 'verified', 'role:user'])->prefix('users')->group(function () {

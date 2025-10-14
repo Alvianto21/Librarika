@@ -4,6 +4,10 @@
             <x-alert></x-alert>
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <x-forms.search-form></x-forms.search-form>
+                @if (Auth()->user()->Role('admin'))
+                    <x-dashboard.datepicker></x-dashboard.datepicker>
+                    <x-dashboard.export-link></x-dashboard.export-link>                
+                @endif
                 <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                     <x-forms.status-borrows-filter :values="['Menunggu' => 'menunggu', 'Dipinjam' => 'dipinjam', 'Dikembalikan' => 'dikembalikan', 'Ditolak' => 'ditolak', 'Hilang' => 'hilang']"></x-forms.status-borrows-filter>
                 </div>
