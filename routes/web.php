@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\HomesController;
 use App\Http\Controllers\ReportExportController;
 use App\Livewire\Dashboard\Books\CreateBook;
@@ -13,6 +14,7 @@ use App\Livewire\Dashboard\Borrows\ShowBorrow;
 use App\Livewire\Dashboard\Borrows\UserBorrow;
 use App\Livewire\Dashboard\Borrows\UserBorrowCreate;
 use App\Livewire\Dashboard\Borrows\UserBorrowInfo;
+use App\Livewire\Dashboard\Users\EditUser;
 use Illuminate\Support\Facades\Route;
 
 // public path
@@ -32,6 +34,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     route::get('/dashboard/books/{book:slug}', ShowBook::class)->name('books.show');
 
     Route::get('/dashboard/books/{book:slug}/edit', EditBook::class)->name('book.edit')->middleware('role:petugas');
+
+    Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('profile');
+
+    Route::get('/dashboard/profile/{user:username}/edit', EditUser::class)->name('profile.edit');
 });
 
 Route::middleware(['auth', 'verified', 'role:petugas,admin'])->group(function () {
@@ -55,9 +61,5 @@ Route::middleware(['auth', 'verified', 'role:user'])->prefix('users')->group(fun
 
     Route::get('/borrows/{borrow:kode_pinjam}', UserBorrowInfo::class)->name('users.borrow.info');
 });
-
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
 
 require __DIR__.'/auth.php';

@@ -16,7 +16,7 @@ class UserBorrowForm extends Form
     /**
      * Validation rules
      */
-    public function rules() {
+    protected function rules() {
         return [
             'book_id' => 'required|exists:books,id',
             'user_id' => 'required|exists:users,id',
