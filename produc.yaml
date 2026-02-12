@@ -1,0 +1,71 @@
+# Web server
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-nginx
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: server-nginx
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: server-nginx
+        tier: backend
+    spec:
+      containers:
+      - name: server-nginx
+        image: librarika_web_server
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+          requests:
+            memory: "500Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Never
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-nginx
+spec:
+  selector:
+    app: server-nginx
+    tier: backend
+  ports:
+  - port: 80
+    protocol: TCP
+  - port: 9000
+    protocol: TCP
+
+---
+# Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: librarika-ingress
+  labels:
+    app.kubernetes.io/name: librarika-ingress
+    app: server-nginx
+    tier: backend
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: librarika.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: service-nginx
+            port: 
+              number: 80

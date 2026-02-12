@@ -7,7 +7,7 @@
     <title>Librarika | {{ $title }} Page</title>
 
     <!-- Tailwind CSS -->
-    @vite('resources/css/app.css', 'resources/js/app.js')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full">
     <div class="min-h-full">
@@ -22,9 +22,6 @@
             {{ $slot }}
         </main>
     </div>
-
-    <!-- Flowbite Js -->
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
     @stack('scripts')
 </body>

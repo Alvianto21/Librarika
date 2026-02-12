@@ -1,0 +1,84 @@
+services:
+  web:
+    build:
+      context: .
+      target: fpm_server
+    container_name: librarika
+    image: librarika_fpm
+    restart: always
+    working_dir: /var/www/html
+    user: "www-data"
+    env_file:
+      - .env
+    environment:
+      - LOG_CHANNEL=stderr
+      - LOG_LEVEL=info
+    depends_on:
+      - db
+  
+  db:
+    image: mysql:8.4.6
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    container_name: mysql
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+      interval: 60s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+  
+  server:
+    build:
+      context: .
+      target: web_server
+    image: librarika_nginx
+    restart: always
+    ports:
+      - "8080:80"
+    container_name: nginx
+    environment:
+      - FPM_HOST=librarika:9000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/up"]
+      interval: 60s
+      timeout: 30s
+      retries: 5
+      start_period: 40s
+    depends_on:
+      - web
+  
+  dbms:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - "8000:80"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - PMA_HOST=db
+      - PMA_PORT=${DB_PORT}
+    container_name: phpmyadmin
+    depends_on:
+      - web
+      - db
+  
+  cronjob:
+    build:
+      context: .
+      target: cron
+    restart: always
+    container_name: laravel_cronjob
+    depends_on:
+      - web
+      - db
+
+volumes:
+  mysql_data:
