@@ -68,6 +68,10 @@ class UserUpdate extends Form
             $validate['password'] = $this->user->password;
         }
 
+        if ($validate['email'] != $this->user->email) {
+            $this->user->email_verified_at = null;
+        }
+
         if ($this->foto_profil instanceof \Illuminate\Http\UploadedFile) {
             if(!empty($this->user->foto_profil)) {
                 Storage::disk('public')->delete($this->user->foto_profil);

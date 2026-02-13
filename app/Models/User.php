@@ -59,7 +59,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     /**
      * Menentukan role user
      */
-    public function Role($role) {
+    public function hasRole($role) {
         return $this->role === $role;
     }
 }

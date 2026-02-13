@@ -4,7 +4,7 @@
             <x-alert></x-alert>
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <x-forms.search-form></x-forms.search-form>
-                @if (Auth()->user()->Role('admin'))
+                @if (Auth()->user()->role === 'admin')
                     <x-dashboard.datepicker></x-dashboard.datepicker>
                     <x-dashboard.export-link></x-dashboard.export-link>                
                 @endif

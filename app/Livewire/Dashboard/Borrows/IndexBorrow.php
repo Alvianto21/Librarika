@@ -90,7 +90,7 @@ class IndexBorrow extends Component
      * Export to Excel
      */
     public function exportExcel() {
-        if (!Auth::user()->Role('admin')) {
+        if (Auth::user()->role !== 'admin') {
             session()->flash('ActionDenied', 'Anda tidak memiliki izin untuk aksi ini');
             return;
         }
@@ -108,7 +108,7 @@ class IndexBorrow extends Component
      * Export to PDF
     */
     public function exportPdf() {
-        if (!Auth::user()->Role('admin')) {
+        if (Auth::user()->role !== 'admin') {
             session()->flash('ActionDenied', 'Anda tidak memiliki izin untuk aksi ini');
             return;
         }
