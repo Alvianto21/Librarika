@@ -35,6 +35,12 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
+      # there is a issue with between mirromutth/mysql-action@v1.1 and Github 
+      # actions runner because Docker API version compatibility issue. 
+      # mirromutth/mysql-action@v1.1 run in daemon 1.40 and Github actions in 1.44
+      # ToDo find alternatively
+      - name: Set Docker API version compatibility
+        run: echo "DOCKER_API_VERSION=1.40" >> $GITHUB_ENV
       - name: Setup MYSQL
         uses: mirromutth/mysql-action@v1.1
         with:
