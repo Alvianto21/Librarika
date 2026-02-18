@@ -1,0 +1,55 @@
+name: testing for deploy
+
+on:
+  push:
+    branches:
+      - kubernetes-testing
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env: 
+      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Setup variable
+        run: |
+          cat > .env <<EOF
+          APP_ENV=testing
+          APP_KEY=
+          DB_CONNECTION=mysql
+          DB_HOST=db
+          DB_PORT=3306
+          DB_DATABASE=${MYSQL_DATABASE}
+          DB_USERNAME=${MYSQL_USER}
+          DB_PASSWORD=${MYSQL_PASSWORD}
+          EOF
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+      - name: Setup MYSQL
+        uses: mirromutth/mysql-action@de1fba8b3f90ce8db80f663a7043be3cf3231248
+        with:
+          mysql version: 8.4
+          mysql root password: ${{ env.MYSQL_ROOT_PASSWORD }}
+          mysql database: ${{ env.MYSQL_DATABASE }}
+          mysql user: ${{ env.MYSQL_USER }}
+          mysql password: ${{ env.MYSQL_PASSWORD }}
+      - name: Install dependencies
+        run: composer install --no-dev --prefer-dist --o --no-progress --no-interaction
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Set laravel file permission
+        run: chmod -R 775 storage bootstrap/cache
+      - name: run database migration
+        run: php artisan migrate
+      - name: Runt test case
+        run: php artisan test
