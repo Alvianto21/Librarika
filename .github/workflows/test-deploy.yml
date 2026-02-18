@@ -38,7 +38,7 @@ jobs:
       - name: Setup MYSQL
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql version: 8.4
+          mysql version: 8.4.6
           mysql root password: ${{ env.MYSQL_ROOT_PASSWORD }}
           mysql database: ${{ env.MYSQL_DATABASE }}
           mysql user: ${{ env.MYSQL_USER }}
