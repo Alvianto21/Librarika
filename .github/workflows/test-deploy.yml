@@ -34,7 +34,7 @@ jobs:
           lOG_CHANNEL=stderr
           LOG_LEVEL=info
           DB_CONNECTION=mysql
-          DB_HOST=db
+          DB_HOST=127.0.0.1
           DB_PORT=3306
           DB_DATABASE=${MYSQL_DATABASE}
           DB_USERNAME=${MYSQL_USER}
