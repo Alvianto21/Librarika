@@ -17,6 +17,8 @@ jobs:
       MYSQL_USER: ${{ secrets.MYSQL_USER }}
       MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,6 +29,8 @@ jobs:
           cat > .env <<EOF
           APP_ENV=testing
           APP_KEY=
+          APP_URL=server
+          APP_TRUSTED_HOSTS=server
           lOG_CHANNEL=stderr
           LOG_LEVEL=info
           DB_CONNECTION=mysql
@@ -38,24 +42,22 @@ jobs:
           MAIL_MAILER=smtp
           MAIL_HOST=sandbox.smtp.mailtrap.io
           MAIL_PORT=2525
-          MAIL_USERNAME=9f19cb8e2f5abf
-          MAIL_PASSWORD=c68e1c3a23a6d8
+          MAIL_USERNAME=${MAIL_USERNAME}
+          MAIL_PASSWORD=${MAIL_PASSWORD}
           MAIL_ENCRYPTION=null
           MAIL_FROM_ADDRESS="librarika@example.com"
-          MAIL_FROM_NAME="${APP_NAME}"
           EOF
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
       - name: Setup MYSQL
-        uses: samin/mysql-action@v1.3
+        uses: shogo82148/actions-setup-mysql@v1.47.0
         with:
           mysql version: 8.4
-          mysql root password: ${{ env.MYSQL_ROOT_PASSWORD }}
-          mysql database: ${{ env.MYSQL_DATABASE }}
-          mysql user: ${{ env.MYSQL_USER }}
-          mysql password: ${{ env.MYSQL_PASSWORD }}
+          root-password: ${{ env.MYSQL_ROOT_PASSWORD }}
+          user: ${{ env.MYSQL_USER }}
+          password: ${{ env.MYSQL_PASSWORD }}
       - name: Install laravel dependencies
         run: composer install --no-dev --prefer-dist --o --no-progress --no-interaction
       - name: Generate key
