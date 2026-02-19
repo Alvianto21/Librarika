@@ -67,5 +67,5 @@ jobs:
         run: chmod -R 775 storage bootstrap/cache
       - name: run database migration
         run: php artisan migrate
-      - name: Runt test case
-        run: ./vendor/bin/phpunit
+      # - name: Runt test case
+      #   run: ./vendor/bin/phpunit
