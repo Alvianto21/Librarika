@@ -68,4 +68,4 @@ jobs:
       - name: run database migration
         run: php artisan migrate
       - name: Runt test case
-        run: php artisan test
+        run: ./vendor/bin/phpunit
