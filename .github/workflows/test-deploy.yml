@@ -54,12 +54,12 @@ jobs:
       - name: Setup MYSQL
         uses: shogo82148/actions-setup-mysql@v1.47.0
         with:
-          mysql version: 8.4
+          mysql-version: 8.4
           root-password: ${{ env.MYSQL_ROOT_PASSWORD }}
           user: ${{ env.MYSQL_USER }}
           password: ${{ env.MYSQL_PASSWORD }}
       - name: Install laravel dependencies
-        run: composer install --no-dev --prefer-dist --o --no-progress --no-interaction
+        run: composer install --no-dev --prefer-dist -o --no-progress --no-interaction
       - name: Generate key
         run: php artisan key:generate
       - name: Set laravel file permission
