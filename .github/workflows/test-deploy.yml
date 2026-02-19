@@ -55,9 +55,11 @@ jobs:
         uses: shogo82148/actions-setup-mysql@v1.47.0
         with:
           mysql-version: 8.4
+          auto-start: true
           root-password: ${{ env.MYSQL_ROOT_PASSWORD }}
           user: ${{ env.MYSQL_USER }}
           password: ${{ env.MYSQL_PASSWORD }}
+      - run: mysql -uroot -e 'SELECT version()'
       - name: Install laravel dependencies
         run: composer install --no-dev --prefer-dist -o --no-progress --no-interaction
       - name: Generate key
