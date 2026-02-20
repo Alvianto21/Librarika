@@ -61,11 +61,15 @@ jobs:
           password: ${{ env.MYSQL_PASSWORD }}
       - name: Install laravel dependencies
         run: composer install --no-dev --prefer-dist -o --no-progress --no-interaction
+      - name: Install npm dependencies
+        run: npm install ci
       - name: Generate key
         run: php artisan key:generate
       - name: Set laravel file permission
         run: chmod -R 775 storage bootstrap/cache
       - name: run database migration
         run: php artisan migrate
+      - name: Build view
+        run: npm run build
       # - name: Runt test case
       #   run: ./vendor/bin/phpunit
