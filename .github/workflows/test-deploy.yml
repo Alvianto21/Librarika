@@ -3,7 +3,7 @@ name: testing for deploy
 on:
   push:
     branches:
-      - main
+      - master
       # ToDo balik ke main dan ubah ke push ke docker hub 
       # target paths ke laravel adan vite main program (app,resource,public/build, test)
       # Opsional buat base untuk run test case di dockerfile
