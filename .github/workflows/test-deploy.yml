@@ -58,6 +58,6 @@ jobs:
           context: .
           file: Dockerfile
           target: ${{ matrix.target }}
-          push: false
+          push: true
           platforms: linux/amd64
           tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.img }}:latest
