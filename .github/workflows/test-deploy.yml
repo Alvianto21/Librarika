@@ -60,5 +60,4 @@ jobs:
           target: ${{ matrix.target }}
           push: false
           platforms: linux/amd64
-          tags:
-            ${{ env.REGISTRY }}/${{ matrix.img }}:latest
+          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.img }}:latest
