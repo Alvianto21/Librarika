@@ -58,6 +58,5 @@ jobs:
           target: ${{ matrix.target }}
           push: true
           platforms: linux/amd64
-          tags: |
+          tags:
             ${{ env.REGISTRY }}/${{ matrix.img }}:latest
-            ${{ env.REGISTRY }}/${{ matrix.img }}:${{ github.sha }}
