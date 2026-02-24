@@ -3,73 +3,64 @@ name: testing for deploy
 on:
   push:
     branches:
-      - kubernetes-testing
       - main
+      # ToDo balik ke main dan ubah ke push ke docker hub 
+      # target paths ke laravel adan vite main program (app,resource,public/build, test)
+      # Opsional buat base untuk run test case di dockerfile
+    paths:
+      - Dockerfile
+      - app/**
+      - resources/**
+      - public/build/**
   pull_request:
     branches:
       - main
+  # ToDo hapus baris 18 dan 19 setelah testing
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env: 
-      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-      MYSQL_USER: ${{ secrets.MYSQL_USER }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
-      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+      REGISTRY: ghcr.io
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: cli
+            img: librarika_cli
+          - target: fpm_server
+            img: librarika_fpm
+          - target: web_server
+            img: librarika_nginx
+          - target: cron
+            img: librarika_cron
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Copy .env file
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: Setup variable
-        run: |
-          cat > .env <<EOF
-          APP_ENV=testing
-          APP_KEY=
-          APP_URL=server
-          APP_TRUSTED_HOSTS=server
-          lOG_CHANNEL=stderr
-          LOG_LEVEL=info
-          DB_CONNECTION=mysql
-          DB_HOST=127.0.0.1
-          DB_PORT=3306
-          DB_DATABASE=${MYSQL_DATABASE}
-          DB_USERNAME=${MYSQL_USER}
-          DB_PASSWORD=${MYSQL_PASSWORD}
-          MAIL_MAILER=smtp
-          MAIL_HOST=sandbox.smtp.mailtrap.io
-          MAIL_PORT=2525
-          MAIL_USERNAME=${MAIL_USERNAME}
-          MAIL_PASSWORD=${MAIL_PASSWORD}
-          MAIL_ENCRYPTION=null
-          MAIL_FROM_ADDRESS="librarika@example.com"
-          EOF
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Login GitHub container registry
+        uses: docker/login-action@v3
         with:
-          php-version: 8.3
-      - name: Setup MYSQL
-        uses: shogo82148/actions-setup-mysql@v1.47.0
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push ${{ matrix.target }}
+        uses: docker/build-push-action@v4
         with:
-          mysql-version: 8.4
-          auto-start: true
-          root-password: ${{ env.MYSQL_ROOT_PASSWORD }}
-          user: ${{ env.MYSQL_USER }}
-          password: ${{ env.MYSQL_PASSWORD }}
-      - name: Install laravel dependencies
-        run: composer install --no-dev --prefer-dist -o --no-progress --no-interaction
-      - name: Install npm dependencies
-        run: npm install ci
-      - name: Generate key
-        run: php artisan key:generate
-      - name: Set laravel file permission
-        run: chmod -R 775 storage bootstrap/cache
-      - name: run database migration
-        run: php artisan migrate
-      - name: Build view
-        run: npm run build
-      # - name: Runt test case
-      #   run: ./vendor/bin/phpunit
+          context: .
+          file: Dockerfile
+          target: ${{ matrix.target }}
+          push: false
+          platforms: linux/amd64
+          tags: |
+            ${{ env.REGISTRY }}/${{ matrix.img }}:latest
+            ${{ env.REGISTRY }}/${{ matrix.img }}:${{ github.sha }}
