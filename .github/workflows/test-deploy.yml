@@ -58,7 +58,7 @@ jobs:
           context: .
           file: Dockerfile
           target: ${{ matrix.target }}
-          push: true
+          push: false
           platforms: linux/amd64
           tags:
             ${{ env.REGISTRY }}/${{ matrix.img }}:latest
