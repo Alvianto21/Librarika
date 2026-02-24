@@ -15,9 +15,6 @@ on:
   pull_request:
     branches:
       - main
-  # ToDo hapus baris 18 dan 19 setelah testing
-  workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -59,7 +56,7 @@ jobs:
           context: .
           file: Dockerfile
           target: ${{ matrix.target }}
-          push: false
+          push: true
           platforms: linux/amd64
           tags: |
             ${{ env.REGISTRY }}/${{ matrix.img }}:latest
