@@ -60,4 +60,4 @@ jobs:
           target: ${{ matrix.target }}
           push: true
           platforms: linux/amd64
-          tags: ${{ env.REGISTRY }}/alvianto21/${{ matrix.img }}:latest
+          tags: ${{ matrix.img }}:latest
