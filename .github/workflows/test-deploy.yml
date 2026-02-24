@@ -52,18 +52,16 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Sanitize username
-        uses: actions/github-script@v6
-        id: lower_username
+      - name: Set up meta data
+        uses: docker/metadata-action@v5
+        id: meta
         with:
-          result-encoding: string
-          script: return '${{ github.repository_owner }}'.toLowerCase()
+          images: ${{ env.REGISTRY }}/${{ matrix.img }}
       - name: Build and push ${{ matrix.target }}
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Dockerfile
           target: ${{ matrix.target }}
           push: true
-          platforms: linux/amd64
-          tags: ${{ env.REGISTRY }}/${{ steps.lower_username.outputs.result }}/${{ matrix.img }}:latest
+          tags: ${{ env.REGISTRY }}/${{ steps.meta.outputs.tags }}
+          labels: ${{ env.REGISTRY }}/${{ steps.meta.outputs.labels }}
