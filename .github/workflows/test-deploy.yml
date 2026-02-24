@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       REGISTRY: ghcr.io
+      USERNAME: alvianto21
     permissions:
       contents: read
       packages: write
@@ -60,4 +61,6 @@ jobs:
           target: ${{ matrix.target }}
           push: true
           platforms: linux/amd64
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.img }}:latest
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ matrix.img }}:latest
+            ${{ env.REGISTRY }}/${{ matrix.img }}:${{ github.sha }}
