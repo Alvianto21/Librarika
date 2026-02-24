@@ -22,7 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       REGISTRY: ghcr.io
-      USERNAME: alvianto21
     permissions:
       contents: read
       packages: write
@@ -61,4 +60,4 @@ jobs:
           target: ${{ matrix.target }}
           push: true
           platforms: linux/amd64
-          tags: ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ matrix.img }}:latest
+          tags: ${{ env.REGISTRY }}/alvianto21/${{ matrix.img }}:latest
