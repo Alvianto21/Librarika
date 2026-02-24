@@ -48,6 +48,7 @@ ARG PHP_SYS
 
 WORKDIR /opt/apps/laravel_kubernetes
 
+# Install PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
     --no-install-suggests ${PHP_SYS} openssl ca-certificates ${PHP_SYS} \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -66,6 +67,7 @@ WORKDIR /var/www/html
 ARG PHP_EXTS
 ARG PHP_SYS
 
+# Install PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
     --no-install-suggests ${PHP_SYS} openssl ca-certificates ${PHP_SYS} \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
