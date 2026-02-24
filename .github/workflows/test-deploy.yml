@@ -15,8 +15,6 @@ on:
   pull_request:
     branches:
       - master
-    # ToDo hapus baris 18 dan 19 setelah testing
-  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
