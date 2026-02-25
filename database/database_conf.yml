@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-volumes-laravel
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database-mysql
+spec:
+  selector:
+    matchLabels:
+      tier: backend
+      layer: database
+  serviceName: laravel-mysql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        tier: backend
+        layer: database
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.4.6
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3306
+          name: mysql
+        resources:
+          requests:
+            cpu: 300m
+            memory: 256Mi
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql
+          subPath: mysql
+        env:
+          - name: MYSQL_RANDOM_ROOT_PASSWORD
+            value: '1'
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: database-conf
+                key: DB_USERNAME
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database-conf
+                key: DB_PASSWORD
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: database-conf
+                key: DB_DATABASE
+        livenessProbe:
+          exec:
+            command:
+              - sh
+              - -c
+              - MYSQL_PWD=${MYSQL_PASSWORD} mysqladmin -u ${MYSQL_USER} ping
+          initialDelaySeconds: 40
+          periodSeconds: 15
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 5
+        readinessProbe:
+          exec:
+            command:
+              - sh
+              - -c
+              - MYSQL_PWD=${MYSQL_PASSWORD} mysql -h 127.0.0.1 -u ${MYSQL_USER} -e "SELECT 1" "SELECT 1"
+          initialDelaySeconds: 50
+          periodSeconds: 20
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 5
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: database-volumes-laravel
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: librarika-mysql
+spec:
+  selector:
+    tier: backend
+    layer: database
+  ports:
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP

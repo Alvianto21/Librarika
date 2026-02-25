@@ -36,3 +36,5 @@ README.md
 /public/build
 /storage/debugbar
 /storage/logs/laravel/log
+deploy.yaml
+database/**.yml
