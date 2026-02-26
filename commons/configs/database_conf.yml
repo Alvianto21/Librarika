@@ -36,7 +36,7 @@ spec:
           name: mysql
         resources:
           requests:
-            cpu: 300m
+            cpu: 500m
             memory: 256Mi
         volumeMounts:
         - name: data
@@ -65,8 +65,8 @@ spec:
             command:
               - sh
               - -c
-              - MYSQL_PWD=${MYSQL_PASSWORD} mysqladmin -u ${MYSQL_USER} ping
-          initialDelaySeconds: 40
+              - MYSQL_PWD=${MYSQL_PASSWORD} mysqladmin -h 127.0.0.1 -u ${MYSQL_USER} ping
+          initialDelaySeconds: 70
           periodSeconds: 15
           timeoutSeconds: 5
           successThreshold: 1
@@ -76,8 +76,8 @@ spec:
             command:
               - sh
               - -c
-              - MYSQL_PWD=${MYSQL_PASSWORD} mysql -h 127.0.0.1 -u ${MYSQL_USER} -e "SELECT 1" "SELECT 1"
-          initialDelaySeconds: 50
+              - MYSQL_PWD=${MYSQL_PASSWORD} mysql -h 127.0.0.1 -u ${MYSQL_USER} -e "SELECT 1"
+          initialDelaySeconds: 75
           periodSeconds: 20
           timeoutSeconds: 2
           successThreshold: 1
