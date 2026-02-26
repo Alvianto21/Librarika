@@ -79,12 +79,12 @@ COPY --from=composer_base --chown=www-data /opt/apps/laravel_kubernetes /var/www
 COPY --from=frontend --chown=www-data /opt/apps/laravel_kubernetes/public /var/www/html/public
 COPY ./docker/php/php.ini $PHP_INI_DIR/conf.d/
 
-# ensure entrypoint is executable
-RUN chmod +x /var/www/html/docker/entrypoint.sh
-
 USER www-data
 
 COPY --chown=www-data . .
+
+# ensure entrypoint is executable
+RUN chmod +x /var/www/html/docker/entrypoint.sh
 
 # Only use this if caches broken, otherwise remove it
 RUN rm -f bootstrap/cache/*.php \
