@@ -56,7 +56,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-enable ${PHP_EXTS} \
     && rm -rf /var/cache/apk/* && apt-get clean
 
-COPY --from=composer_base /opt/apps/laravel_kubernetes /opt/apps
+COPY --from=composer_base /opt/apps/laravel_kubernetes /opt/apps/laravel_kubernetes/
 COPY --from=frontend /opt/apps/laravel_kubernetes/public /opt/apps/laravel_kubernetes/public
 
 # PHP main base
