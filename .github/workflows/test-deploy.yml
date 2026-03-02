@@ -67,5 +67,5 @@ jobs:
           context: .
           target: ${{ matrix.target }}
           push: true
-          tags: ${{ steps.lower_username.outputs.result }}/${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.lower_username.outputs.result }}/${{ steps.meta.outputs.labels }}
+          tags: ${{ env.REGISTRY }}/${{ steps.lower_username.outputs.result }}/${{ steps.meta.outputs.tags }}
+          labels: ${{ env.REGISTRY }}/${{ steps.lower_username.outputs.result }}/${{ steps.meta.outputs.labels }}
