@@ -12,6 +12,7 @@ on:
       - app/**
       - resources/**
       - public/build/**
+      - routes/**
   pull_request:
     branches:
       - master
