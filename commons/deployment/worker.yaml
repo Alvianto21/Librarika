@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librarika-query-worker
+spec:
+  selector:
+    matchLabels:
+      tier: backend
+      layer: queue-worker
+      queue: default
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: librarika-query-worker
+        tier: backend
+        layer: queue-worker
+        queue: default
+    spec:
+      containers:
+      - name: librarika-query-worker
+        image: ghcr.io/alvianto21/ghcr.io/librarika_cli:master
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "800Mi"
+            cpu: "1500m"
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 9000
+        command:
+          - php
+        args:
+          - artisan
+          - queue:work
+          - --queue=default
+          - --max-jobs=100
+          - --timeout=90
+          - --tries=3
+          - --sleep=3
+        envFrom:
+          - configMapRef:
+              name: laravel-conf
+          - secretRef:
+              name: laravel-credential-conf

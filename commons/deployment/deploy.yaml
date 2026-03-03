@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librarika-fpm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: backend
+      layer: fpm
+  template:
+    metadata:
+      labels:
+        app: librarika-fpm
+        tier: backend
+        layer: fpm
+    spec:
+      initContainers:
+        - name: librarika-fpm-migration
+          image: ghcr.io/alvianto21/ghcr.io/librarika_fpm:master
+          imagePullPolicy: IfNotPresent
+          command:
+            - php
+          args:
+            - artisan
+            - migrate
+            - --force
+          envFrom:
+            - configMapRef:
+                name: laravel-conf
+            - secretRef:
+                name: laravel-credential-conf
+      containers:
+      - name: librarika-fpm
+        image: ghcr.io/alvianto21/ghcr.io/librarika_fpm:master
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            cpu: "1000m"
+            memory: "3000Mi"
+        ports:
+        - containerPort: 9000
+        envFrom:
+          - configMapRef:
+              name: laravel-conf
+          - secretRef:
+              name: laravel-credential-conf
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: librarika-fpm-service
+spec:
+  selector:
+    tier: backend
+    layer: fpm
+  ports:
+  - port: 9000
+    targetPort: 9000
+    protocol: TCP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librarika-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: backend
+      layer: web-server
+  template:
+    metadata:
+      labels:
+        app: librarika-nginx
+        tier: backend
+        layer: web-server
+    spec:
+      containers:
+      - name: librarika-nginx
+        image: ghcr.io/alvianto21/ghcr.io/librarika_nginx:master
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "400m"
+          requests:
+            memory: "128Mi"
+            cpu: "150m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: FPM_HOST
+            value: librarika-fpm-service:9000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: librarika-nginx-service
+spec:
+  selector:
+    tier: backend
+    layer: web-server
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  type: NodePort
