@@ -1,0 +1,33 @@
+# Gunakan salah satu dari kube_cron_laravel dan container_cron_laravel
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librarika-kubernetes-cronjob
+spec:
+  selector:
+    matchLabels:
+      tier: backend
+      layer: cronjob
+  template:
+    metadata:
+      labels:
+        app: librarika-kubernetes-cronjob
+        tier: backend
+        layer: cronjob
+    spec:
+      containers:
+      - name: librarika-kubernetes-cronjob
+        image: ghcr.io/alvianto21/ghcr.io/librarika_cron:master
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+        envFrom:
+          - configMapRef:
+              name: laravel-conf
+          - secretRef:
+              name: laravel-credential-conf

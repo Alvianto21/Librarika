@@ -1,0 +1,33 @@
+# Gunakan salah satu dari kube_cron_laravel dan container_cron_laravel
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: librarika-kubernetes-cronjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: librarika-kubernetes-cronjob
+            image: ghcr.io/alvianto21/ghcr.io/librarika_cli:master
+            imagePullPolicy: IfNotPresent
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "64Mi"
+              limits:
+                cpu: "200m"
+                memory: "128Mi"
+            command:
+            - php
+            args:
+            - artisan
+            - schedule:run
+            envFrom:
+              - configMapRef:
+                  name: laravel-conf
+              - secretRef:
+                  name: laravel-credential-conf
+          restartPolicy: OnFailure
