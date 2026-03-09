@@ -119,10 +119,16 @@ metadata:
   name: laravel-nginx
   labels:
     app.kubernetes.io/name: laravel-nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "librarika-staging"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+      - www.127.0.0.1.nip.io
+      secretName: librarika-tls
   rules:
-  - host: librarika.local
+  - host: www.127.0.0.1.nip.io
     http:
       paths:
       - pathType: Prefix

@@ -1,0 +1,2 @@
+WARNING! THIS REPO WILL CLOSE IN MARCH 2026. USE DEFAULT DOCKER DESKTOP KUBERNETES INGRESS OR NIMICUBE INSTEAD
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.14.3/deploy/static/provider/cloud/deploy.yaml
