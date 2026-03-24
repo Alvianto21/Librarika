@@ -19,6 +19,7 @@ yarn-error.log
 /.idea
 /.vscode
 .vscode/*
+.vs/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
