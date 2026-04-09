@@ -42,6 +42,7 @@ COPY package.json package-lock.json ./
 RUN npm install ci && npm run build
 
 # Opsional buat base untuk run tests case di dockerfile
+
 # CLI controller base
 FROM php:8.3.26-cli AS cli
 
