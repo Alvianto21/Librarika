@@ -2,6 +2,7 @@
 ARG PHP_EXTS="curl intl mbstring exif bcmath pdo pdo_mysql opcache zip"
 
 ARG PHP_SYS="zip unzip git cron libzip-dev libfreetype-dev libjpeg62-turbo-dev libpng-dev libonig-dev libcurl4-openssl-dev libicu-dev"
+
 # Starting base
 FROM composer:2.8.11 AS composer_base
 
