@@ -4,7 +4,7 @@ ARG PHP_EXTS="curl intl mbstring exif bcmath pdo pdo_mysql opcache zip"
 ARG PHP_SYS="zip unzip git cron libzip-dev libfreetype-dev libjpeg62-turbo-dev libpng-dev libonig-dev libcurl4-openssl-dev libicu-dev"
 
 # Starting base
-FROM composer:2.8.11 AS composer_base
+FROM composer:2.9 AS composer_base
 
 
 RUN mkdir -p /opt/apps/laravel_kubernetes /opt/apps/laravel_kubernetes/bin
@@ -44,7 +44,7 @@ RUN npm install ci && npm run build
 # Opsional buat base untuk run tests case di dockerfile
 
 # CLI controller base
-FROM php:8.3.26-cli AS cli
+FROM php:8.4.20-cli AS cli
 
 ARG PHP_EXTS
 ARG PHP_SYS
@@ -63,7 +63,7 @@ COPY --from=composer_base /opt/apps/laravel_kubernetes /opt/apps/laravel_kuberne
 COPY --from=frontend /opt/apps/laravel_kubernetes/public /opt/apps/laravel_kubernetes/public
 
 # PHP main base
-FROM php:8.3.26-fpm AS fpm_server
+FROM php:8.4.20-fpm AS fpm_server
 
 WORKDIR /var/www/html
 
@@ -81,6 +81,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=composer_base --chown=www-data /opt/apps/laravel_kubernetes /var/www/html/
 COPY --from=frontend --chown=www-data /opt/apps/laravel_kubernetes/public /var/www/html/public
 COPY ./docker/php/php.ini $PHP_INI_DIR/conf.d/
+COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
 USER www-data
 
@@ -99,7 +100,7 @@ ENTRYPOINT [ "docker/entrypoint.sh" ]
 CMD [ "php-fpm" ]
 
 # Nginx for web server
-FROM nginx:1.29 AS web_server
+FROM nginx:1.29.8 AS web_server
 
 WORKDIR /var/www/html
 
