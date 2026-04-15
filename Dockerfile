@@ -106,9 +106,9 @@ FROM nginx:1.29.8 AS web_server
 
 WORKDIR /var/www/html
 
+# Copy nginx config to templates
 COPY ./docker/nginx/nginx.conf /etc/nginx/templates/default.conf.template
 
-# Copy nginx config to templates
 COPY --from=frontend /opt/apps/laravel_kubernetes/public/ /var/www/html/public/
 
 # Cron job base
