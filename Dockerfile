@@ -83,7 +83,7 @@ COPY --from=frontend --chown=www-data /opt/apps/laravel_kubernetes/public /var/w
 
 # Copy php and php-fpm config files
 COPY ./docker/php/php.ini $PHP_INI_DIR/conf.d/
-COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+# COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
 USER www-data
 
@@ -106,10 +106,10 @@ FROM nginx:1.29.8 AS web_server
 
 WORKDIR /var/www/html
 
+COPY --from=frontend /opt/apps/laravel_kubernetes/public/ /var/www/html/public/
+
 # Copy nginx config to templates
 COPY ./docker/nginx/nginx.conf /etc/nginx/templates/default.conf.template
-
-COPY --from=frontend /opt/apps/laravel_kubernetes/public/ /var/www/html/public/
 
 # Cron job base
 FROM cli AS cron
