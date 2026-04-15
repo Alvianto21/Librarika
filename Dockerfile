@@ -81,6 +81,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=composer_base --chown=www-data /opt/apps/laravel_kubernetes /var/www/html/
 COPY --from=frontend --chown=www-data /opt/apps/laravel_kubernetes/public /var/www/html/public
 
+# Copy php config file
 COPY ./docker/php/php.ini $PHP_INI_DIR/conf.d/
 COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
