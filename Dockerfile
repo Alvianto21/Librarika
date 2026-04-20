@@ -116,7 +116,7 @@ FROM cli AS cron
 
 WORKDIR /opt/apps/laravel_kubernetes
 
-# Setup cronjob
+# Setup cronjobs
 RUN touch laravel.cron && \
     echo "* * * * * cd /opt/apps/laravel_kubernetes && php artisan schedule:run >> /proc/1/fd/1 2>/proc/1/fd/2" >> laravel.cron \
     crontab laravel.cron
