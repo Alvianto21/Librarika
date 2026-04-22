@@ -4,7 +4,7 @@ ARG PHP_EXTS="curl intl mbstring exif bcmath pdo pdo_mysql opcache zip"
 ARG PHP_SYS="zip unzip git cron libzip-dev libfreetype-dev libjpeg62-turbo-dev libpng-dev libonig-dev libcurl4-openssl-dev libicu-dev"
 
 # Starting base
-FROM composer:2.9 AS composer_base
+FROM composer:2.9.6 AS composer_base
 
 
 RUN mkdir -p /opt/apps/laravel_kubernetes /opt/apps/laravel_kubernetes/bin
