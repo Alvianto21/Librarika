@@ -1,7 +1,9 @@
 # Declaration PHP extensions
-ARG PHP_EXTS="curl intl mbstring exif bcmath pdo pdo_mysql opcache zip"
+ARG PHP_EXTS="curl intl mbstring exif bcmath pdo pdo_mysql opcache zip pcntl"
 
 ARG PHP_SYS="zip unzip git cron libzip-dev libfreetype-dev libjpeg62-turbo-dev libpng-dev libonig-dev libcurl4-openssl-dev libicu-dev"
+
+ARG PHP_PCNTL="redis"
 
 # Starting base
 FROM composer:2.9.7 AS composer_base
@@ -48,6 +50,7 @@ FROM php:8.4.20-cli AS cli
 
 ARG PHP_EXTS
 ARG PHP_SYS
+ARG PHP_PCNTL
 
 WORKDIR /opt/apps/laravel_kubernetes
 
@@ -57,6 +60,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd ${PHP_EXTS} \
     && docker-php-ext-enable ${PHP_EXTS} \
+    && pecl install ${PHP_PCNTL} \
     && rm -rf /var/cache/apk/* && apt-get clean
 
 COPY --from=composer_base /opt/apps/laravel_kubernetes /opt/apps/laravel_kubernetes/
@@ -69,6 +73,7 @@ WORKDIR /var/www/html
 
 ARG PHP_EXTS
 ARG PHP_SYS
+ARG PHP_PCNTL
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -76,6 +81,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd ${PHP_EXTS} \
     && docker-php-ext-enable ${PHP_EXTS} \
+    && pecl install ${PHP_PCNTL} \
     && rm -rf /var/cache/apk/* && apt-get clean
 
 COPY --from=composer_base --chown=www-data /opt/apps/laravel_kubernetes /var/www/html/
