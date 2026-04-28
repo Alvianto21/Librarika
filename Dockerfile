@@ -56,12 +56,13 @@ WORKDIR /opt/apps/laravel_kubernetes
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    --no-install-suggests ${PHP_SYS} openssl ca-certificates ${PHP_SYS} \
+    --no-install-suggests openssl ca-certificates ${PHP_SYS} \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd ${PHP_EXTS} \
-    && docker-php-ext-enable ${PHP_EXTS} \
     && pecl install ${PHP_PCNTL} \
-    && rm -rf /var/cache/apk/* && apt-get clean
+    && docker-php-ext-enable ${PHP_EXTS} \
+    && docker-php-ext-enable ${PHP_PCNTL} \
+    && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 COPY --from=composer_base /opt/apps/laravel_kubernetes /opt/apps/laravel_kubernetes/
 COPY --from=frontend /opt/apps/laravel_kubernetes/public /opt/apps/laravel_kubernetes/public
@@ -77,12 +78,13 @@ ARG PHP_PCNTL
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    --no-install-suggests ${PHP_SYS} openssl ca-certificates ${PHP_SYS} \
+    --no-install-suggests openssl ca-certificates ${PHP_SYS} \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd ${PHP_EXTS} \
-    && docker-php-ext-enable ${PHP_EXTS} \
     && pecl install ${PHP_PCNTL} \
-    && rm -rf /var/cache/apk/* && apt-get clean
+    && docker-php-ext-enable ${PHP_EXTS} \
+    && docker-php-ext-enable ${PHP_PCNTL} \
+    && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 COPY --from=composer_base --chown=www-data /opt/apps/laravel_kubernetes /var/www/html/
 COPY --from=frontend --chown=www-data /opt/apps/laravel_kubernetes/public /var/www/html/public
