@@ -62,7 +62,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && pecl install ${PHP_PCNTL} \
     && docker-php-ext-enable ${PHP_EXTS} \
     && docker-php-ext-enable ${PHP_PCNTL} \
-    && rm -rf /var/lib/apt/lists/* && apt-get clean
+    && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/pear/download/* \
+    && apt-get clean
 
 COPY --from=composer_base /opt/apps/laravel_kubernetes /opt/apps/laravel_kubernetes/
 COPY --from=frontend /opt/apps/laravel_kubernetes/public /opt/apps/laravel_kubernetes/public
